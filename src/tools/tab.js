@@ -8,8 +8,10 @@ export function registerTabTools(server) {
     catch (err) { return jsonResult({ success: false, error: err.message }, true); }
   });
 
-  server.tool('tab_new', 'Open a new chart tab', {}, async () => {
-    try { return jsonResult(await core.newTab()); }
+  server.tool('tab_new', 'Open a new chart tab (creates a new layout in TradingView Desktop)', {
+    name: z.string().optional().describe('Name for the new layout (default: "New")'),
+  }, async ({ name } = {}) => {
+    try { return jsonResult(await core.newTab({ name })); }
     catch (err) { return jsonResult({ success: false, error: err.message }, true); }
   });
 
